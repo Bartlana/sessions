@@ -13,10 +13,28 @@ func main() {
 	router := mux.NewRouter()
 	utils.InitDB()
 
+	// Subjects
 	router.HandleFunc("/subjects", domains.GetSubjects).Methods("GET")
 	router.HandleFunc("/subjects", domains.CreateSubject).Methods("POST")
 	router.HandleFunc("/subjects/{id}", domains.DeleteSubject).Methods("DELETE")
 	router.HandleFunc("/subjects/{id}", domains.UpdateSubject).Methods("PUT")
+
+	//Groups
+	router.HandleFunc("/groups", domains.GetGroups).Methods("GET")
+	router.HandleFunc("/groups", domains.CreateGroup).Methods("POST")
+	router.HandleFunc("/groups/{id}", domains.DeleteGroup).Methods("DELETE")
+	router.HandleFunc("/groups/{id}", domains.UpdateGroup).Methods("PUT")
+
+	//Students
+//	router.HandleFunc("/students", domains.GetStudents).Methods("GET")
+
+	//Professors
+	router.HandleFunc("/professors", domains.GetProfessors).Methods("GET")
+	router.HandleFunc("/professors", domains.CreateProfessor).Methods("POST")
+	router.HandleFunc("/professors/{id}", domains.DeleteProfessor).Methods("DELETE")
+	router.HandleFunc("/professors/{id}", domains.UpdateProfessor).Methods("PUT")
+
+	//Class
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

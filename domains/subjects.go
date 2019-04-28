@@ -39,8 +39,10 @@ func CreateSubject (w http.ResponseWriter, r *http.Request){
 	json.NewDecoder(r.Body).Decode(&subject)
 	db.Create(&subject)
 	json.NewEncoder(w).Encode(&subject)
-	json.NewEncoder(w).Encode(&subject)
 	PlugLog()
+	var subjects []Subject
+	db.Find(&subjects)
+	json.NewEncoder(w).Encode(&subjects)
 	log.WithFields(logrus.Fields{
 		"subject_id":    subject.Subject_id,
 		"subject_name":  subject.Subject_name,
@@ -56,7 +58,6 @@ func DeleteSubject(w http.ResponseWriter, r *http.Request) {
 
 	var subjects []Subject
 	db.Find(&subjects)
-	json.NewEncoder(w).Encode(&subjects)
 	json.NewEncoder(w).Encode(&subjects)
 	PlugLog()
 	log.WithFields(logrus.Fields{

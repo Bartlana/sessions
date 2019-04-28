@@ -7,7 +7,7 @@ create table groups (
 create table professors (
   professor_id    bigserial primary key,
   professor_name  text not null,
-  login           text not null,
+  login           text unique not null,
   password        text not null
 );
 
@@ -20,7 +20,7 @@ create table students (
   student_id      bigserial primary key,
   student_name    text      not null,
   group_id        bigint    references groups(group_id),
-  login           text      not null,
+  login           text      unique not null,
   password        text      not null
 );
 
