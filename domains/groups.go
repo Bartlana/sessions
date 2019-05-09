@@ -29,9 +29,7 @@ func CreateGroup (w http.ResponseWriter, r *http.Request){
 	db.Create(&group)
 	json.NewEncoder(w).Encode(&group)
 	PlugLog()
-	var groups []Group
-	db.Find(&groups)
-	json.NewEncoder(w).Encode(&groups)
+
 	log.WithFields(logrus.Fields{
 		"group_id":     group.Group_id,
 		"group_name":   group.Group_name,
@@ -45,10 +43,6 @@ func DeleteGroup(w http.ResponseWriter, r *http.Request) {
 	var group Group
 	db.First(&group, params["id"])
 	db.Delete(&group)
-
-	var groups []Group
-	db.Find(&groups)
-	json.NewEncoder(w).Encode(&groups)
 	PlugLog()
 	log.WithFields(logrus.Fields{
 		"group_id":    group.Group_id,
@@ -63,12 +57,10 @@ func UpdateGroup(w http.ResponseWriter, r *http.Request) {
 	var updGroup Group
 	db.First(&updGroup, params["id"])
 	json.NewDecoder(r.Body).Decode(&updGroup)
-	if err := db.Save(updGroup); err.Error != nil {
-		return
-	}
-	var groups []Group
-	db.Find(&groups)
-	json.NewEncoder(w).Encode(&groups)
+	//if err := db.Save(updGroup); err.Error != nil {
+	//	return
+	//}
+	db.Save(updGroup)
 	PlugLog()
 	log.WithFields(logrus.Fields{
 		"group_id":    	updGroup.Group_id,

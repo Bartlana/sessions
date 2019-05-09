@@ -30,9 +30,6 @@ func CreateProfessor (w http.ResponseWriter, r *http.Request){
 	db.Create(&professor)
 	json.NewEncoder(w).Encode(&professor)
 	PlugLog()
-	var professors []Professors
-	db.Find(&professors)
-	json.NewEncoder(w).Encode(&professors)
 	log.WithFields(logrus.Fields{
 		"professor_id":    professor.Professor_id,
 		"professor_name":  professor.Professor_name,
@@ -46,10 +43,6 @@ func DeleteProfessor(w http.ResponseWriter, r *http.Request) {
 	var professor Professors
 	db.First(&professor, params["id"])
 	db.Delete(&professor)
-
-	var professors []Professors
-	db.Find(&professors)
-	json.NewEncoder(w).Encode(&professors)
 	PlugLog()
 	log.WithFields(logrus.Fields{
 		"professor_id":    professor.Professor_id,
@@ -67,9 +60,6 @@ func UpdateProfessor(w http.ResponseWriter, r *http.Request) {
 	if err := db.Save(updProfessor); err.Error != nil {
 		return
 	}
-	var professors []Professors
-	db.Find(&professors)
-	json.NewEncoder(w).Encode(&professors)
 	PlugLog()
 	log.WithFields(logrus.Fields{
 		"professor_id":    updProfessor.Professor_id,
