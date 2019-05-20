@@ -48,26 +48,79 @@ insert into groups (group_name) values ('321');
 
 /******************Занятия******************/
 
-insert into class (class_date, subject, professor)
-values ('03-09-2019', 1, 1);
-insert into class (class_date, subject, professor)
-values ('04-09-2019', 2, 1);
-insert into class (class_date, subject, professor)
-values ('05-09-2019', 1, 1);
-insert into class (class_date, subject, professor)
-values ('06-09-2019', 2, 1);
-insert into class (class_date, subject, professor)
-values ('07-09-2019', 1, 1);
-insert into class (class_date, subject, professor)
-values ('08-09-2019', 2, 1);
-insert into class (class_date, subject, professor)
-values ('09-09-2019', 1, 1);
-insert into class (class_date, subject, professor)
-values ('10-09-2019', 2, 1);
-insert into class (class_date, subject, professor)
-values ('11-09-2019', 1, 1);
-insert into class (class_date, subject, professor)
-values ('12-09-2019', 2, 1);
+insert into classes (class_date, subject, professor)
+values ('03-09-2019', 4, 1);
+insert into classes (class_date, subject, professor)
+values ('04-09-2019', 5, 1);
+insert into classes (class_date, subject, professor)
+values ('05-09-2019', 4, 1);
+insert into classes (class_date, subject, professor)
+values ('06-09-2019', 5, 1);
+insert into classes (class_date, subject, professor)
+values ('07-09-2019', 4, 1);
+insert into classes (class_date, subject, professor)
+values ('08-09-2019', 5, 1);
+insert into classes (class_date, subject, professor)
+values ('09-09-2019', 4, 1);
+insert into classes (class_date, subject, professor)
+values ('10-09-2019', 5, 1);
+insert into classes (class_date, subject, professor)
+values ('11-09-2019', 4, 1);
+insert into classes (class_date, subject, professor)
+values ('12-09-2019', 5, 1);
+insert into classes (class_date, subject, professor)
+values ('12-09-2019', 14, 3);
+insert into classes (class_date, subject, professor)
+values ('12-09-2019', 14, 3);
+insert into classes (class_date, subject, professor)
+values ('12-09-2019', 14, 3);
+insert into classes (class_date, subject, professor)
+values ('12-09-2019', 14, 3);
+
+insert into group_in_class (class_id, group_id)
+values (3, 1);
+insert into group_in_class (class_id, group_id)
+values (3, 2);
+insert into group_in_class (class_id, group_id)
+values (3, 3);
+insert into group_in_class (class_id, group_id)
+values (3, 4);
+insert into group_in_class (class_id, group_id)
+values (4, 1);
+insert into group_in_class (class_id, group_id)
+values (4, 9);
+insert into group_in_class (class_id, group_id)
+values (4, 8);
+insert into group_in_class (class_id, group_id)
+values (4, 7);
+insert into group_in_class (class_id, group_id)
+values (5, 5);
+insert into group_in_class (class_id, group_id)
+values (5, 1);
+insert into group_in_class (class_id, group_id)
+values (6, 5);
+insert into group_in_class (class_id, group_id)
+values (7, 1);
+insert into group_in_class (class_id, group_id)
+values (7, 4);
+insert into group_in_class (class_id, group_id)
+values (7, 7);
+insert into group_in_class (class_id, group_id)
+values (8, 1);
+insert into group_in_class (class_id, group_id)
+values (9, 4);
+insert into group_in_class (class_id, group_id)
+values (10, 4);
+insert into group_in_class (class_id, group_id)
+values (10, 5);
+insert into group_in_class (class_id, group_id)
+values (13, 1);
+insert into group_in_class (class_id, group_id)
+values (14, 1);
+insert into group_in_class (class_id, group_id)
+values (15, 1);
+insert into group_in_class (class_id, group_id)
+values (16, 1);
 
 /******************Студенты******************/
 

@@ -42,7 +42,7 @@ create table statistic (
   student      bigint references students(student_id)
 );
 
-create table class (
+create table classes (
   class_id    bigserial primary key,
   class_date  date not null,
   subject     bigint references subjects(subject_id),
@@ -51,12 +51,12 @@ create table class (
 );
 
 create table group_in_class (
-  class_id bigint references class(class_id),
+  class_id bigint references classes(class_id),
   group_id bigint references groups(group_id)
 );
 
 create table presence (
   presence_id bigserial primary key,
-  class       bigint    references class(class_id),
+  class       bigint    references classes(class_id),
   student     bigint    references students(student_id)
 );

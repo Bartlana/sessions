@@ -26,7 +26,8 @@ func main() {
 	router.HandleFunc("/groups/{id}", domains.UpdateGroup).Methods("PUT")
 
 	//Students
-//	router.HandleFunc("/students", domains.GetStudents).Methods("GET")
+	router.HandleFunc("/students/{group_id}", domains.GetStudents).Methods("GET")
+	router.HandleFunc("/students/{id}", domains.UpdateStudent).Methods("PUT")
 
 	//Professors
 	router.HandleFunc("/professors", domains.GetProfessors).Methods("GET")
@@ -35,6 +36,8 @@ func main() {
 	router.HandleFunc("/professors/{id}", domains.UpdateProfessor).Methods("PUT")
 
 	//Class
+	router.HandleFunc("/class/professor/{professor_id}", domains.GetClassesByProfessor).Methods("GET")
+	router.HandleFunc("/class/subject/{subject_id}", domains.GetClassesBySubject).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
