@@ -10,25 +10,32 @@ import (
 
 
 type Professors struct {
-	Professor_id int64	`json:"professor_id" gorm:"primary_key"`
+	Professor_id uint	`json:"professor_id" gorm:"primary_key"`
 	Professor_name string `json:"professor_name"`
 	Login string `json:"professor_login"`
 	Password string `json:"professor_pass"`
+	Token string `json:"token" sql:"-"`
 }
 
-func GetProfessors(w http.ResponseWriter, r *http.Request){
+var GetProfessors = func(w http.ResponseWriter, r *http.Request){
 	db := utils.GetDB()
 	var professors []Professors
 	db.Find(&professors)
 	json.NewEncoder(w).Encode(&professors)
 }
 
-func CreateProfessor (w http.ResponseWriter, r *http.Request){
-	db := utils.GetDB()
-	var professor Professors
-	json.NewDecoder(r.Body).Decode(&professor)
-	db.Create(&professor)
-	json.NewEncoder(w).Encode(&professor)
+var CreateProfessor = func (w http.ResponseWriter, r *http.Request){
+	//db := utils.GetDB()
+	professor := &Professors{}
+	err := json.NewDecoder(r.Body).Decode(professor)
+	if err != nil {
+		utils.Respond(w, utils.Message(false, "Error while decoding request body"))
+		return
+	}
+	//db.Create(&professor)
+	resp := professor.Create()
+	utils.Respond(w, resp)
+	//json.NewEncoder(w).Encode(&professor)
 	PlugLog()
 	log.WithFields(logrus.Fields{
 		"professor_id":    professor.Professor_id,
@@ -36,8 +43,21 @@ func CreateProfessor (w http.ResponseWriter, r *http.Request){
 		"professor_login": professor.Login,
 	}).Info("Created professor")
 }
+func Authenticate (w http.ResponseWriter, r *http.Request) {
 
-func DeleteProfessor(w http.ResponseWriter, r *http.Request) {
+	account := &Professors{}
+	err := json.NewDecoder(r.Body).Decode(account) //decode the request body into struct and failed if any error occur
+	if err != nil {
+		utils.Respond(w, utils.Message(false, "Invalid request"))
+		return
+	}
+
+	resp := Login(account.Login, account.Password)
+	utils.Respond(w, resp)
+}
+
+
+var DeleteProfessor = func(w http.ResponseWriter, r *http.Request) {
 	db := utils.GetDB()
 	params := mux.Vars(r)
 	var professor Professors

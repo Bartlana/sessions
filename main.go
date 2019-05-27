@@ -12,6 +12,7 @@ import (
 func main() {
 	router := mux.NewRouter()
 	utils.InitDB()
+	router.Use(utils.JwtAuthentication)
 
 	// Subjects
 	router.HandleFunc("/subjects", domains.GetSubjects).Methods("GET")
@@ -31,9 +32,10 @@ func main() {
 
 	//Professors
 	router.HandleFunc("/professors", domains.GetProfessors).Methods("GET")
-	router.HandleFunc("/professors", domains.CreateProfessor).Methods("POST")
+	router.HandleFunc("/professor/new", domains.CreateProfessor).Methods("POST")
 	router.HandleFunc("/professors/{id}", domains.DeleteProfessor).Methods("DELETE")
 	router.HandleFunc("/professors/{id}", domains.UpdateProfessor).Methods("PUT")
+	router.HandleFunc("/professor/login", domains.Authenticate).Methods("POST")
 
 	//Class
 	router.HandleFunc("/class/professor/{professor_id}", domains.GetClassesByProfessor).Methods("GET")
