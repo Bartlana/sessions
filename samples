@@ -1,0 +1,79 @@
+//          /student/new
+
+{ "student_name": "Vasya Pupkin",
+  "student_login": "vasya123@gmail.com",
+  "group":1,
+  "student_pass": "vasya123"
+}
+    // response
+    {
+        "account": {
+            "student_id": 159,
+            "student_name": "Vasya Pupkin",
+            "student_login": "vasya123@gmail.com",
+            "group": 1,
+            "student_pass": "",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjE1OX0.tAV98BRjFojJ9vkfl6ouNBQF2lzYka7jnD46_DDMERo"
+        },
+        "message": "Account has been created",
+        "status": true
+    }
+
+//          professor/new
+
+{
+  "professor_name":"Mr. Pupkin",
+  "professor_login":"vasya@gmail.com",
+  "professor_pass":"vasyaqq"
+}
+    //response
+    {
+        "account": {
+            "professor_id": 15,
+            "professor_name": "Mr. Pupkin",
+            "professor_login": "vasya@gmail.com",
+            "professor_pass": "",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjE1fQ.aeomtIBUm6nm-hoOy8ZsN-9SDQkL0ob6ffCCSvCNcFg"
+        },
+        "message": "Account has been created",
+        "status": true
+    }
+
+//          professor/login
+
+
+{
+	"professor_login":"vasya@gmail.com",
+	"professor_pass":"vasyaqq"
+}
+    // response
+    {
+        "message": "Logged In",
+        "professor": {
+            "professor_id": 13,
+            "professor_name": "vasya",
+            "professor_login": "vasya@gmail.com",
+            "professor_pass": "",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEzfQ.z_42QYIqCzA8UV-x6j18_sBVt_aIfH3iTQEWaIaiZwg"
+        },
+        "status": true
+    }
+//          student/login
+     {
+        "student_login": "vasya@gmail.com",
+        "student_pass": "vasya123"
+     }
+
+     // response
+     {
+         "message": "Logged In",
+         "status": true,
+         "student": {
+             "student_id": 159,
+             "student_name": "Vasya Pupkin",
+             "student_login": "vasya@gmail.com",
+             "group": 1,
+             "student_pass": "",
+             "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjE1OX0.tAV98BRjFojJ9vkfl6ouNBQF2lzYka7jnD46_DDMERo"
+         }
+     }
