@@ -29,19 +29,24 @@ func main() {
 	//Students
 	router.HandleFunc("/students/{group_id}", domains.GetStudents).Methods("GET")
 	router.HandleFunc("/students/{id}", domains.UpdateStudent).Methods("PUT")
-	router.HandleFunc("/student/login", domains.StudentAuthenticate).Methods("POST")
-	router.HandleFunc("/student/new", domains.CreateStudent).Methods("POST")
+	router.HandleFunc("/students/login", domains.StudentAuthenticate).Methods("POST")
+	router.HandleFunc("/students/new", domains.CreateStudent).Methods("POST")
 
 	//Professors
 	router.HandleFunc("/professors", domains.GetProfessors).Methods("GET")
-	router.HandleFunc("/professor/new", domains.CreateProfessor).Methods("POST")
+	router.HandleFunc("/professors/new", domains.CreateProfessor).Methods("POST")
 	router.HandleFunc("/professors/{id}", domains.DeleteProfessor).Methods("DELETE")
 	router.HandleFunc("/professors/{id}", domains.UpdateProfessor).Methods("PUT")
-	router.HandleFunc("/professor/login", domains.ProfessorAuthenticate).Methods("POST")
+	router.HandleFunc("/professors/login", domains.ProfessorAuthenticate).Methods("POST")
 
 	//Class
-	router.HandleFunc("/class/professor/{professor_id}", domains.GetClassesByProfessor).Methods("GET")
-	router.HandleFunc("/class/subject/{subject_id}", domains.GetClassesBySubject).Methods("GET")
+	router.HandleFunc("/class/professors/{professor_id}", domains.GetClassesByProfessor).Methods("GET")
+	router.HandleFunc("/class/subjects/{subject_id}", domains.GetClassesBySubject).Methods("GET")
+
+
+	router.HandleFunc("/questions", domains.CreateQuestion).Methods("POST")
+	router.HandleFunc("/answers", domains.CreateAnswer).Methods("POST")
+	router.HandleFunc("/presences", domains.CreatePresence).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

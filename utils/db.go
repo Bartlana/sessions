@@ -13,9 +13,9 @@ var db *gorm.DB
 var (
 	host     = "localhost"
 	port     = 5432
-	user     = "sveta"//os.Getenv("USER") // your data connection here
-	password = "1234" //os.Getenv("")
-	dbname   = "sessions" //os.Getenv("")
+	user     = os.Getenv("USER") // your data connection here
+	password = os.Getenv("PASS")
+	dbname   = os.Getenv("DBNAME")
 )
 var log = logrus.New()
 

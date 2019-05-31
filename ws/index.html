@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search)
+
+    const IS_TEACHER = urlParams.get('isTeacher')
+    const button = document.createElement('button')
+    document.documentElement.appendChild(button)
+    button.className = `${ IS_TEACHER ? 'create' : 'finish'}-pole`
+    button.textContent = `${ IS_TEACHER ? 'create' : 'finish'} pole`
+
+    const LESSON_NUMBER = Number(urlParams.get('lessonNumber') || 10)
+    const USER_ID = 100
+
+    const socket = io.connect('http://localhost:3000')
+    socket.emit('JOIN_ROOM', LESSON_NUMBER)
+
+    let pollId;
+
+    if (IS_TEACHER) {
+      button.addEventListener('click', () => {
+        axios.post('http://localhost:8080/questions', { question_text: 'dfgsdfgsdlgksk' })
+          .then(res => res.data)
+          .then(poll => {
+            socket.emit('CREATE_POLL', { lesson_number: LESSON_NUMBER, ...poll })
+          })
+      })
+    } else {
+      button.addEventListener('click', () => {
+        axios.post('http://localhost:8080/answers', {
+            question_id: pollId,
+            answer_text: 'answer',
+            student_id: USER_ID,
+          })
+        .then(res => res.data)
+        .then(answer => {
+          socket.emit('POLL_ANSWERED', { lesson_number: LESSON_NUMBER, ...answer })
+        })
+      })
+    }
+
+    socket.on('POLL_STARTED', ({ question_id, question_text }) => {
+      pollId = question_id
+      console.log(pollId)
+    })
+
+    if (IS_TEACHER) {
+      socket.on('POLL_ANSWERED_NOTIFICATION', answer => {
+        console.log('answered')
+        console.log(answer)
+      })
+    }
+  </script>
+</body>
+</html>

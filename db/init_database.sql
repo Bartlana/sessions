@@ -36,7 +36,7 @@ create table answers (
   student     bigint references students(student_id)
 );
 
-create table statistic (
+create table statistics (
   statistic_id bigserial primary key,
   question     bigint references questions(question_id),
   student      bigint references students(student_id)
@@ -55,7 +55,7 @@ create table group_in_class (
   group_id bigint references groups(group_id)
 );
 
-create table presence (
+create table presences (
   presence_id bigserial primary key,
   class       bigint    references classes(class_id),
   student     bigint    references students(student_id)
