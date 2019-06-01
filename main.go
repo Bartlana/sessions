@@ -7,6 +7,7 @@ import (
 	"./domains"
 	"./utils"
 	"log"
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -48,5 +49,7 @@ func main() {
 	router.HandleFunc("/answers", domains.CreateAnswer).Methods("POST")
 	router.HandleFunc("/presences", domains.CreatePresence).Methods("POST")
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+
+	handler := cors.Default().Handler(router)
+	log.Fatal(http.ListenAndServe(":8080", handler))
 }
