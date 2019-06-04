@@ -1,7 +1,7 @@
 package domains
 
 import (
-	"../utils"
+	u "../utils"
 	"encoding/json"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -26,13 +26,12 @@ type Presence struct {
 }
 
 func CreateQuestion (w http.ResponseWriter, r *http.Request){
-	db := utils.GetDB()
+	db := u.GetDB()
 	var question Question
 	json.NewDecoder(r.Body).Decode(&question)
 	db.Create(&question)
 	db.First(&question)
 	json.NewEncoder(w).Encode(&question)
-
 	PlugLog()
 	log.WithFields(logrus.Fields{
 		"question_id":    question.Question_id,
@@ -40,17 +39,21 @@ func CreateQuestion (w http.ResponseWriter, r *http.Request){
 	}).Info("Created question")
 }
 
-func CreateAnswer (w http.ResponseWriter, r *http.Request){
-	db := utils.GetDB()
+func CreateAnswer (w http.ResponseWriter, r *http.Request) {
+	db := u.GetDB()
 	var answer Answer
-	json.NewDecoder(r.Body).Decode(&answer)
+	err :=	json.NewDecoder(r.Body).Decode(&answer)
+		if err != nil {
+			u.Respond(w, u.Message(false, "Error while decoding request body"))
+			return
+		}
 	db.Create(&answer)
 	db.First(&answer)
 	json.NewEncoder(w).Encode(&answer)
 }
 
 func CreatePresence (w http.ResponseWriter, r *http.Request){
-	db := utils.GetDB()
+	db := u.GetDB()
 	var presence Presence
 	json.NewDecoder(r.Body).Decode(&presence)
 	db.Create(&presence)

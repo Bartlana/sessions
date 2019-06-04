@@ -192,3 +192,39 @@ insert into students (student_name, group_id, login, password) values ('Шевч
 
 
 /******************Присутствие******************/
+insert into presences (class, student) values (3, 100);
+insert into presences (class, student) values (3, 101);
+insert into presences (class, student) values (3, 102);
+insert into presences (class, student) values (3, 103);
+insert into presences (class, student) values (3, 104);
+insert into presences (class, student) values (3, 105);
+insert into presences (class, student) values (3, 106);
+insert into presences (class, student) values (3, 107);
+
+
+insert into presences (class, student) values (4, 100);
+insert into presences (class, student) values (4, 101);
+insert into presences (class, student) values (4, 102);
+insert into presences (class, student) values (4, 103);
+insert into presences (class, student) values (4, 104);
+insert into presences (class, student) values (4, 105);
+insert into presences (class, student) values (4, 106);
+insert into presences (class, student) values (4, 107);
+
+insert into presences (class, student) values (4, 110);
+insert into presences (class, student) values (4, 111);
+insert into presences (class, student) values (4, 112);
+insert into presences (class, student) values (4, 113);
+insert into presences (class, student) values (4, 114);
+insert into presences (class, student) values (4, 115);
+insert into presences (class, student) values (4, 116);
+insert into presences (class, student) values (4, 117);
+
+insert into presences (class, student) values (5, 140);
+insert into presences (class, student) values (5, 141);
+insert into presences (class, student) values (5, 142);
+insert into presences (class, student) values (5, 143);
+insert into presences (class, student) values (5, 144);
+insert into presences (class, student) values (5, 145);
+insert into presences (class, student) values (5, 146);
+insert into presences (class, student) values (5, 147);

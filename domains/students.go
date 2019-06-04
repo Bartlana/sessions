@@ -28,7 +28,6 @@ func (student *Student) StudentValidate() (map[string] interface{}, bool) {
 	if !strings.Contains(student.Login, "@") {
 		return u.Message(false, "Email address is required"), false
 	}
-
 	if len(student.Password) < 6 {
 		return u.Message(false, "Password is required"), false
 	}
@@ -56,9 +55,7 @@ func (student *Student) StudentCreate() (map[string] interface{}) {
 
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(student.Password), bcrypt.DefaultCost)
 	student.Password = string(hashedPassword)
-
 	db.Create(student)
-
 	if student.Student_id <= 0 {
 		return u.Message(false, "Failed to create account, connection error.")
 	}
@@ -68,9 +65,7 @@ func (student *Student) StudentCreate() (map[string] interface{}) {
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
 	tokenString, _ := token.SignedString([]byte(os.Getenv("token_password")))
 	student.Token = tokenString
-
 	student.Password = "" //delete password
-
 	response := u.Message(true, "Account has been created")
 	response["account"] = student
 	return response
@@ -86,14 +81,11 @@ func StudentLogin(login, password string) (map[string]interface{}) {
 		}
 		return u.Message(false, "Connection error. Please retry")
 	}
-
 	err = bcrypt.CompareHashAndPassword([]byte(student.Password), []byte(password))
 	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword { //Password does not match!
 		return u.Message(false, "Your password is invalid. Please try again")
 	}
-	//Worked! Logged In
 	student.Password = ""
-
 	//Create JWT token
 	tk := &u.Token{UserId: student.Student_id}
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
@@ -124,6 +116,23 @@ func GetStudents(w http.ResponseWriter, r *http.Request){
 	json.NewEncoder(w).Encode(&students)
 }
 
+func GetStudentsByClass(w http.ResponseWriter, r *http.Request){
+	db := utils.GetDB()
+	type StudentsByClass struct {
+		Student_name string `json:"student_name"`
+		Group_name string `json:"group_name"`
+	}
+	var studentsByClass []StudentsByClass
+	params := mux.Vars(r)
+	db.Raw("select student_name, group_name from students" +
+		"	join groups g on students.group_id = g.group_id" +
+		"	join presences p on students.student_id = p.student " +
+		"	join classes c2 on p.class = c2.class_id " +
+		"	and class_id = ?" +
+		"	group by group_name, student_name;", params["class_id"]).Scan(&studentsByClass)
+	json.NewEncoder(w).Encode(&studentsByClass)
+}
+
 func CreateStudent (w http.ResponseWriter, r *http.Request){
 	student := &Student{}
 	err := json.NewDecoder(r.Body).Decode(student)
@@ -133,11 +142,6 @@ func CreateStudent (w http.ResponseWriter, r *http.Request){
 	}
 	resp := student.StudentCreate()
 	u.Respond(w, resp)
-	//db.Create(&student)
-	//json.NewEncoder(w).Encode(&student)
-	//var students []Student
-	//db.Find(&students)
-	//json.NewEncoder(w).Encode(&students)
 	PlugLog()
 	log.WithFields(logrus.Fields{
 		"student_id":    student.Student_id,

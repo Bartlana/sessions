@@ -36,18 +36,18 @@ create table answers (
   student     bigint references students(student_id)
 );
 
-create table statistics (
-  statistic_id bigserial primary key,
-  question     bigint references questions(question_id),
-  student      bigint references students(student_id)
-);
-
 create table classes (
   class_id    bigserial primary key,
   class_date  date not null,
   subject     bigint references subjects(subject_id),
   professor   bigint references professors(professor_id),
   theme       text
+);
+
+create table statistics (
+  statistic_id bigserial primary key,
+  question     bigint references questions(question_id),
+  class      bigint references classes(class_id)
 );
 
 create table group_in_class (
