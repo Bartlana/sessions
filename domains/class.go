@@ -52,13 +52,13 @@ func GetClassesByStudent(w http.ResponseWriter, r *http.Request){
 	db := u.GetDB()
 	var class []Class
 	params := mux.Vars(r)
-	db.Raw(" select classes.class_id, class_date, theme, subject_name, professor_name, string_agg(group_name, ', ') as groups from classes " +
-		"join subjects s2 on classes.subject = s2.subject_id " +
-		"join professors p on classes.professor = p.professor_id " +
-		"join group_in_class on classes.class_id = group_in_class.class_id " +
-		"join groups g on group_in_class.group_id = g.group_id " +
-		"where subject_id = ?" +
-		"group by classes.class_id, subject_name, professor_name", params["subject_id"]).Scan(&class)
+	db.Raw(" SELECT classes.class_id as class_id, class_date, theme, subject_name, professor_name FROM classes " +
+		"	join subjects s2 on classes.subject = s2.subject_id " +
+		"	join professors p on classes.professor = p.professor_id" +
+		"	join presences on classes.class_id = presences.class" +
+		"	join students on presences.student = students.student_id" +
+		"	where student_id = ?" +
+		"	order by class_date", params["student_id"]).Scan(&class)
 	json.NewEncoder(w).Encode(&class)
 }
 

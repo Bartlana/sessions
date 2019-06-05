@@ -32,6 +32,7 @@ func main() {
 	router.HandleFunc("/students/{id}", domains.UpdateStudent).Methods("PUT")
 	router.HandleFunc("/students/login", domains.StudentAuthenticate).Methods("POST")
 	router.HandleFunc("/students/new", domains.CreateStudent).Methods("POST")
+	router.HandleFunc("/students/classes/{class_id}", domains.GetStudentsByClass).Methods("GET")
 
 	//Professors
 	router.HandleFunc("/professors", domains.GetProfessors).Methods("GET")
@@ -41,8 +42,10 @@ func main() {
 	router.HandleFunc("/professors/login", domains.ProfessorAuthenticate).Methods("POST")
 
 	//Class
-	router.HandleFunc("/class/professors/{professor_id}", domains.GetClassesByProfessor).Methods("GET")
-	router.HandleFunc("/class/subjects/{subject_id}", domains.GetClassesBySubject).Methods("GET")
+	router.HandleFunc("/classes/professors/{professor_id}", domains.GetClassesByProfessor).Methods("GET")
+	router.HandleFunc("/classes/subjects/{subject_id}", domains.GetClassesBySubject).Methods("GET")
+	router.HandleFunc("/classes/students/{student_id}", domains.GetClassesByStudent).Methods("GET")
+	router.HandleFunc("/classes", domains.CreateClass).Methods("POST")
 
 
 	router.HandleFunc("/questions", domains.CreateQuestion).Methods("POST")
