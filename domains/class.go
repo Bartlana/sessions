@@ -16,6 +16,10 @@ type Class struct {
 	Theme string `json:"theme"`
 	Groups []int64 `json:"groups"`
 }
+type GroupInClass struct {
+	Class_id int64 `json:"class_id"`
+	Group_id int64 `json:"group_id"`
+}
 
 func GetClassesByProfessor(w http.ResponseWriter, r *http.Request){
 	db := u.GetDB()
@@ -71,4 +75,14 @@ func CreateClass (w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	db.Create(&class)
+}
+func CreateGroupInClass (w http.ResponseWriter, r *http.Request) {
+	db := u.GetDB()
+	var groupInClass GroupInClass
+	err :=	json.NewDecoder(r.Body).Decode(&groupInClass)
+	if err != nil {
+		u.Respond(w, u.Message(false, "Error while decoding request body"))
+		return
+	}
+	db.Create(&groupInClass)
 }

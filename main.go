@@ -46,7 +46,7 @@ func main() {
 	router.HandleFunc("/classes/subjects/{subject_id}", domains.GetClassesBySubject).Methods("GET")
 	router.HandleFunc("/classes/students/{student_id}", domains.GetClassesByStudent).Methods("GET")
 	router.HandleFunc("/classes", domains.CreateClass).Methods("POST")
-
+	router.HandleFunc("/classes/groups", domains.CreateGroupInClass).Methods("POST")
 
 	router.HandleFunc("/questions", domains.CreateQuestion).Methods("POST")
 	router.HandleFunc("/answers", domains.CreateAnswer).Methods("POST")

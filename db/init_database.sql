@@ -50,7 +50,7 @@ create table statistics (
   class      bigint references classes(class_id)
 );
 
-create table group_in_class (
+create table group_in_classes (
   class_id bigint references classes(class_id),
   group_id bigint references groups(group_id)
 );
