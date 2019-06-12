@@ -77,20 +77,22 @@ func GetClassesByStudent(w http.ResponseWriter, r *http.Request){
 func CreateClass (w http.ResponseWriter, r *http.Request) {
 	db := u.GetDB()
 	var class Class
-		json.NewDecoder(r.Body).Decode(&class)
-	//if err != nil {
-	//	u.Respond(w, u.Message(false, "Error while decoding request body"))
-	//	return
-	//}
+	err := json.NewDecoder(r.Body).Decode(&class)
+	if err != nil {
+		u.Respond(w, u.Message(false, "Error while decoding request body"))
+		return
+	}
 	db.Create(&class)
+	db.First(&class)
+	json.NewEncoder(w).Encode(&class)
 }
 func CreateGroupInClass (w http.ResponseWriter, r *http.Request) {
 	db := u.GetDB()
 	var groupInClass GroupInClass
-	json.NewDecoder(r.Body).Decode(&groupInClass)
-	//if err != nil {
-	//	u.Respond(w, u.Message(false, "Error while decoding request body"))
-	//	return
-	//}
+	err := json.NewDecoder(r.Body).Decode(&groupInClass)
+	if err != nil {
+		u.Respond(w, u.Message(false, "Error while decoding request body"))
+		return
+	}
 	db.Create(&groupInClass)
 }
