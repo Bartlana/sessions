@@ -12,8 +12,8 @@ import (
 type GetClass struct {
 	Class_id int64	`json:"class_id" gorm:"primary_key"`
 	Class_date string `json:"class_date"`
-	Subject string `json:"subject"`
-	Professor string `json:"professor"`
+	Subject_name string `json:"subject"`
+	Professor_name string `json:"professor"`
 	Theme string `json:"theme"`
 	Groups string `json:"groups" sql:"-"`
 }
@@ -64,13 +64,14 @@ func GetClassesByStudent(w http.ResponseWriter, r *http.Request){
 	db := u.GetDB()
 	var class []GetClass
 	params := mux.Vars(r)
-	db.Raw(" SELECT classes.class_id as class_id, class_date, theme, subject_name, professor_name FROM classes " +
-		"	join subjects s2 on classes.subject = s2.subject_id " +
+	db.Raw(" select classes.class_id, class_date, theme, subject_name, professor_name, string_agg(group_name, ', ') as groups from classes" +
+		"	join subjects s2 on classes.subject = s2.subject_id" +
 		"	join professors p on classes.professor = p.professor_id" +
-		"	join presences on classes.class_id = presences.class" +
-		"	join students on presences.student = students.student_id" +
+		"	join group_in_classes on classes.class_id = group_in_classes.class_id" +
+		"	join groups g on group_in_classes.group_id = g.group_id" +
+		"	join students s3 on g.group_id = s3.group_id" +
 		"	where student_id = ?" +
-		"	order by class_date", params["student_id"]).Scan(&class)
+		"	group by classes.class_id, subject_name, professor_name", params["student_id"]).Scan(&class)
 	json.NewEncoder(w).Encode(&class)
 }
 
